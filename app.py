@@ -3,7 +3,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import os, json
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'
+app.secret_key = os.environ.get("SECRET_KEY", "Safehaven84")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -17,32 +17,15 @@ class User(UserMixin):
 def load_user(user_id):
     return User(user_id)
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        if request.form["username"] == "admin" and request.form["password"] == "hcen123":
-            user = User("admin")
-            login_user(user)
-            return redirect(url_for("admin"))
-        return "Invalid login"
-    return '''
-        <form method="post">
-            <input name="username" placeholder="Username">
-            <input name="password" placeholder="Password" type="password">
-            <button type="submit">Login</button>
-        </form>
-    '''
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("login"))
-
 @app.route("/")
-def index():
-    approved = json.load(open("data.json", "r")) if os.path.exists("data.json") else []
-    return render_template("index.html", entries=[e for e in approved if e.get("approved")])
+def home():
+    return render_template("home.html")
+
+@app.route("/reports")
+def reports():
+    data = json.load(open("data.json", "r")) if os.path.exists("data.json") else []
+    approved = [entry for entry in data if entry.get("approved")]
+    return render_template("reports.html", entries=approved)
 
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
@@ -67,17 +50,33 @@ def admin():
         return redirect("/admin")
     return render_template("admin.html", entries=data)
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        if request.form["username"] == "admin" and request.form["password"] == "Safehaven84":
+            user = User("admin")
+            login_user(user)
+            return redirect(url_for("admin"))
+        return "Invalid login"
+    return render_template("login.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
+
 @app.route("/export")
 @login_required
 def export():
     import csv
     from io import StringIO
     output = StringIO()
-    writer = csv.DictWriter(output, fieldnames=["name", "phone", "car_color", "car_type", "model", "appearance", "report", "approved"])
+    writer = csv.DictWriter(output, fieldnames=["name", "phone", "car_color", "car_type", "model", "appearance", "report", "location", "approved"])
     writer.writeheader()
     for entry in json.load(open("data.json")):
         writer.writerow(entry)
     return output.getvalue(), 200, {'Content-Type': 'text/csv', 'Content-Disposition': 'attachment;filename=reports.csv'}
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=False, host="0.0.0.0")
