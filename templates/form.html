@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bad Date Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <div class="max-w-3xl mx-auto py-10 px-4">
+    <h1 class="text-2xl font-bold mb-6">Submit a New Incident</h1>
+    <form action="/submit" method="POST" class="space-y-4 bg-white p-6 rounded shadow">
+      <input name="alias" placeholder="Alias / Nickname" class="w-full p-2 border rounded" />
+      <input name="phone" placeholder="Phone Number" class="w-full p-2 border rounded" />
+      <select name="vehicle_color" class="w-full p-2 border rounded">
+        <option value="">Vehicle Color</option><option>White</option><option>Black</option><option>Gray</option><option>Red</option><option>Blue</option><option>Green</option><option>Other</option>
+      </select>
+      <select name="vehicle_type" class="w-full p-2 border rounded">
+        <option value="">Vehicle Type</option><option>Car</option><option>Truck</option><option>Van</option><option>SUV</option><option>Motorcycle</option>
+      </select>
+      <input name="vehicle_make_model" placeholder="Make / Model" class="w-full p-2 border rounded" />
+      <input name="license_plate" placeholder="License Plate (partial OK)" class="w-full p-2 border rounded" />
+      <textarea name="appearance" placeholder="Appearance (clothes, hair, glasses, etc.)" class="w-full p-2 border rounded"></textarea>
+      <textarea name="features" placeholder="Identifying Features (tattoos, scars, accent)" class="w-full p-2 border rounded"></textarea>
+      <input name="location" placeholder="Location of Incident" class="w-full p-2 border rounded" />
+      <textarea name="incident" placeholder="Describe what happened..." class="w-full p-2 border rounded"></textarea>
+      <label><input type="radio" name="reported_to_police" value="yes" /> Reported to Police</label>
+      <label><input type="radio" name="reported_to_police" value="no" /> Not Reported</label>
+      <br />
+      <label><input type="checkbox" name="wants_help_reporting" value="yes" /> I'd like help reporting this</label>
+      <br />
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

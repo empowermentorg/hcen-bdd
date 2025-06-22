@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4">
+  <h1 class="text-3xl font-bold mb-6">Approved Reports</h1>
+  <div class="grid gap-4">
+    {% for entry in entries %}
+      <div class="bg-white shadow-md rounded-xl p-4">
+        <p><strong>Name:</strong> {{ entry.name }}</p>
+        <p><strong>Phone:</strong> {{ entry.phone }}</p>
+        <p><strong>Car:</strong> {{ entry.car_color }} {{ entry.car_type }} {{ entry.model }}</p>
+        <p><strong>Appearance:</strong> {{ entry.appearance }}</p>
+        <p><strong>Location:</strong> {{ entry.location }}</p>
+        <a class="text-blue-500 underline" href="https://www.google.com/maps/search/{{ entry.location | urlencode }}" target="_blank">View on Map</a>
+        <p class="mt-2"><strong>Report:</strong> {{ entry.report }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

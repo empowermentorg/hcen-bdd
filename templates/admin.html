@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4">
+  <h1 class="text-3xl font-bold mb-6">Admin Panel</h1>
+  <form method="POST" class="space-y-4">
+    {% for entry in entries %}
+      <div class="bg-white rounded-xl shadow p-4">
+        <p class="text-lg font-semibold">Report #{{ loop.index }}</p>
+        <p><strong>Name:</strong> {{ entry.name }}</p>
+        <p><strong>Phone:</strong> {{ entry.phone }}</p>
+        <p><strong>Car:</strong> {{ entry.car_color }} {{ entry.car_type }} {{ entry.model }}</p>
+        <p><strong>Appearance:</strong> {{ entry.appearance }}</p>
+        <p><strong>Location:</strong> {{ entry.location }}</p>
+        <p><strong>Report:</strong> {{ entry.report }}</p>
+        <p><strong>Approved:</strong> {{ entry.approved }}</p>
+        <label class="inline-flex items-center mt-2">
+          <input type="checkbox" name="{{ loop.index0 }}" class="form-checkbox">
+          <span class="ml-2">Approve this report</span>
+        </label>
+      </div>
+    {% endfor %}
+    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Approve Selected</button>
+    <a href="/logout" class="ml-4 text-blue-500 underline">Logout</a>
+  </form>
+</body>
+</html>
